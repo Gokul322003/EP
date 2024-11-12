@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "my-static-website-355870905691-us-east-1-gokul32200311"
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+      VersioningConfiguration:
+        Status: Enabled  # Corrected versioning placement
+    DeletionPolicy: Retain
+
+  WebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref WebsiteBucket
+      PolicyDocument:
+        Statement:
+          - Action: "s3:GetObject"
+            Effect: "Allow"
+            Resource: !Sub "arn:aws:s3:::my-static-website-355870905691-us-east-1-gokul32200311/*"
+            Principal: "*"
